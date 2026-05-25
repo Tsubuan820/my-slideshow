@@ -60,7 +60,7 @@
       display: none;
       min-height: 100vh;
       padding: 40px 24px 80px;
-      max-width: 720px;
+      max-width: 480px;
       margin: 0 auto;
     }
     #mgr-header {
@@ -481,6 +481,11 @@
             <div class="toggle-track"></div>
             <div class="toggle-thumb"></div>
           </label>
+        </div>
+        <div class="setting-row" style="flex-wrap:wrap;gap:6px;">
+          <span class="setting-label">埋め込みURL</span>
+          <span id="embed-url-text" style="flex:1;font-size:11px;color:var(--text-secondary);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;"></span>
+          <button id="copy-url-btn" style="background:var(--bg-surface);border:1px solid var(--border);color:var(--text-secondary);border-radius:7px;padding:5px 12px;font-size:11px;cursor:pointer;font-family:inherit;white-space:nowrap;transition:background 0.2s,color 0.2s;">URLをコピー</button>
         </div>
       </div>
     </div>
@@ -907,6 +912,15 @@
       imageOrder.push({ id: uid(), type: 'url', value: val });
       saveOrder(); urlInput.value = ''; renderThumbs();
     }
+    document.getElementById('embed-url-text').textContent = location.href;
+    document.getElementById('copy-url-btn').addEventListener('click', () => {
+      navigator.clipboard.writeText(location.href).then(() => {
+        const btn = document.getElementById('copy-url-btn');
+        btn.textContent = 'コピーしました！';
+        setTimeout(() => btn.textContent = 'URLをコピー', 2000);
+      });
+    });
+
     addUrlBtn.addEventListener('click', addUrl);
     urlInput.addEventListener('keydown', e => { if (e.key === 'Enter') addUrl(); });
 
